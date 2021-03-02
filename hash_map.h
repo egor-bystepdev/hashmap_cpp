@@ -1,4 +1,3 @@
-#pragma once
 #include <vector>
 #include <algorithm>
 #include <list>
@@ -43,7 +42,7 @@ public:
             return iter.second;
         }
 
-        const typename listIter::value_type &operator*() {
+        const mapPair &operator*() {
             return *iter.second;
         }
 
@@ -103,7 +102,7 @@ public:
             return iter.second;
         }
 
-        const typename listConstIter::value_type &operator*() {
+        const mapPair &operator*() {
             return *iter.second;
         }
 
@@ -132,12 +131,8 @@ public:
         }
     };
 
-
-    HashMap() : hasher(Hash()) {
-        clear();
-    }
-
-    HashMap(Hash _hasher) : hasher(_hasher) {
+    
+    HashMap(Hash _hasher = Hash()) : hasher(_hasher) {
         clear();
     }
 
@@ -283,14 +278,22 @@ public:
         }
     }
 
-    void clear(size_t newSize = baseCap) {
+    void clear() {
         hashmap.clear();
+        size_t newSize = baseCap;
         hashmap.resize(newSize);
         trueBegin = prev(hashmap.end());
         count = 0;
     }
 
 private:
+    void clear(size_t newSize) {
+        hashmap.clear();
+        hashmap.resize(newSize);
+        trueBegin = prev(hashmap.end());
+        count = 0;
+    }
+
     void resize(size_t newSize) {
         std::vector<mapPair> elements;
         for (const auto &it : (*this)) {
@@ -309,6 +312,3 @@ private:
     size_t count = 0;
     vectorType hashmap;
 };
-
-
-
